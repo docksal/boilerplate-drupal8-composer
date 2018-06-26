@@ -18,8 +18,35 @@ SITEDIR_PATH="${DOCROOT_PATH}/sites/${SITE_DIRECTORY}"
 
 #-------------------------- END: Settings --------------------------------
 
+#-------------------------- Helper functions --------------------------------
+
+# Copy a settings file.
+# Skips if the destination file already exists.
+# @param $1 source file
+# @param $2 destination file
+copy_settings_file()
+{
+	local source="$1"
+	local dest="$2"
+
+	if [[ ! -f $dest ]]; then
+		echo "Copying ${dest}..."
+		cp $source $dest
+	else
+		echo "${dest} already in place."
+	fi
+}
+
+#-------------------------- END: Helper functions --------------------------------
+
 #-------------------------- Functions --------------------------------
 
+# Copy repo settings.php file into project
+copy_settings ()
+{
+	copy_settings_file "${PROJECT_ROOT}/.docksal/settings/settings.php" "${SITEDIR_PATH}/settings.php"
+	copy_settings_file "${PROJECT_ROOT}/.docksal/settings/settings.local.php" "${SITEDIR_PATH}/settings.local.php"
+}
 
 # Fix file/folder permissions
 fix_permissions ()
@@ -34,7 +61,7 @@ site_install ()
 	cd $DOCROOT_PATH
 
 	# We disable email sending here so site-install does not return an error
-	php -d sendmail_path=/bin/true /usr/local/bin/drush site-install -y --site-name='My Drupal 8 Site' --db-url="mysql://user:user@db/default"
+	php -d sendmail_path=/bin/true /usr/local/bin/drush site-install -y --site-name='My Drupal 8 Site'
 }
 
 composer_install ()
@@ -50,5 +77,7 @@ composer_install ()
 composer_install
 fix_permissions
 time site_install
+copy_settings
+
 
 #-------------------------- END: Execution --------------------------------
