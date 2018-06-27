@@ -61,7 +61,7 @@ site_install ()
 	cd $DOCROOT_PATH
 
 	# We disable email sending here so site-install does not return an error
-	php -d sendmail_path=/bin/true /usr/local/bin/drush site-install -y --site-name='My Drupal 8 Site'
+	drush site:install -y -vvv --site-name='My Drupal 8 Site' standard
 }
 
 composer_install ()
@@ -75,9 +75,9 @@ composer_install ()
 
 # Project initialization steps
 composer_install
+copy_settings
 fix_permissions
 time site_install
-copy_settings
 
 
 #-------------------------- END: Execution --------------------------------
