@@ -34,6 +34,7 @@ copy_settings_file()
 		cp $source $dest
 	else
 		echo "${dest} already in place."
+		cp -f $source $dest
 	fi
 }
 
@@ -59,9 +60,9 @@ fix_permissions ()
 site_install ()
 {
 	cd $DOCROOT_PATH
-	pwd
+
 	# We disable email sending here so site-install does not return an error
-	php -d sendmail_path=/bin/true /usr/local/bin/drush site-install -y --site-name='My Drupal 8 Site' standard
+	php -d sendmail_path=/bin/true /usr/local/bin/drush site-install -y --site-name='My Drupal 8 Site'
 }
 
 composer_install ()
