@@ -45,6 +45,7 @@
     },
     "scripts": {
         "pre-install-cmd": [
+            "@composer drupal:scaffold",
             "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
         ],
         "pre-update-cmd": [
@@ -54,6 +55,7 @@
             "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
         ],
         "post-update-cmd": [
+            "@composer drupal:scaffold",
             "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
         ]
     },
